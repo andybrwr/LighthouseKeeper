@@ -69,6 +69,16 @@ internal class BtWatcher
         _stopScanTimer.Stop();
         _startScanTimer.Start();
 
-        ScanFinished?.Invoke(this, Lighthouses);
+        Task.Run(async () =>
+        {
+            foreach (var lighthouse in Lighthouses)
+            {
+                await lighthouse.ConnectAsync();
+                await lighthouse.UpdateAsync();
+                lighthouse.Disconnect();
+            }
+            
+            ScanFinished?.Invoke(this, Lighthouses);
+        });
     }
 }

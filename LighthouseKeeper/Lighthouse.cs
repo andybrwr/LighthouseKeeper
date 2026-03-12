@@ -20,9 +20,10 @@ internal class Lighthouse : IEquatable<Lighthouse>
 
     public required ulong Address { get; init; }
     public required string Name { get; init; }
+    public bool IsPowered { get; private set; }
 
-    private BluetoothLEDevice? _device = null;
-    private GattDeviceService? _service = null;
+    private BluetoothLEDevice? _device;
+    private GattDeviceService? _service;
 
     public void Disconnect()
     {
@@ -61,6 +62,20 @@ internal class Lighthouse : IEquatable<Lighthouse>
         _service = result.Services.First(s => s.Uuid == Service);
     }
 
+    public async Task UpdateAsync()
+    {
+        if (_service == null) throw new InvalidOperationException("Lighthouse is not connected");        
+
+        try
+        {
+            IsPowered = await IsPoweredAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine($"Failed to get power state for {Name}: {e}");
+        }
+    }
+
     public async Task<bool> IsPoweredAsync()
     {
         if (_service == null) throw new InvalidOperationException("Lighthouse is not connected");
@@ -70,7 +85,7 @@ internal class Lighthouse : IEquatable<Lighthouse>
 
         var result = await res.Characteristics[0].ReadValueAsync();
 
-        return result.Value.GetByte(0) == 0x00;
+        return result.Value.GetByte(0) != 0x00;
     }
 
     public async Task PowerOffAsync()
