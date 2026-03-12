@@ -1,0 +1,63 @@
+{
+	"Name": "LighthouseKeeper",
+	"Version": "0.1.0.0",
+	"Author": "Andrew Brower <andrew@brwr.dev>",
+	"Actions": [
+		{
+			"Name": "Turn On",
+			"UUID": "dev.brwr.lighthousekeeper.turnon",
+			"Icon": "imgs/actions/counter/icon",
+			"Tooltip": "Turns all Lighthouses on",
+			"PropertyInspectorPath": "ui/turn-on.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/counter/key",
+					"TitleAlignment": "middle"
+				}
+			]
+		},
+		{
+			"Name": "Turn Off",
+			"UUID": "dev.brwr.lighthousekeeper.turnoff",
+			"Icon": "imgs/actions/counter/icon",
+			"Tooltip": "Turns all Lighthouses off",
+			"PropertyInspectorPath": "ui/turn-on.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/counter/key",
+					"TitleAlignment": "middle"
+				}
+			]
+		}
+	],
+	"Category": "LighthouseKeeper",
+	"CategoryIcon": "imgs/plugin/category-icon",
+	"CodePath": "bin/plugin.js",
+	"Description": "LighthouseKeeper integration",
+	"Icon": "imgs/plugin/marketplace",
+	"SDKVersion": 3,
+	"Software": {
+		"MinimumVersion": "6.9"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "12"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "20",
+		"Debug": "enabled"
+	},
+	"UUID": "dev.brwr.lighthousekeeper"
+}
