@@ -9,7 +9,7 @@ using Windows.Devices.Enumeration;
 
 namespace LighthouseKeeper;
 
-internal class BtWatcher
+public class BtWatcher
 {
     private BluetoothLEAdvertisementWatcher _bleWatcher = new();
 
@@ -62,7 +62,7 @@ internal class BtWatcher
     }
 
     private void StopScan(object? sender, EventArgs e) => StopScan();
-    private void StopScan()
+    public void StopScan()
     {
         Debug.WriteLine("stopping scan");
         _bleWatcher.Stop();

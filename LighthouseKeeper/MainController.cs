@@ -13,8 +13,12 @@ public partial class MainController : ApplicationContext
     private NotifyIcon _notifyIcon;
     private BtWatcher _btWatcher = new();
 
+    private WebApplication? _api;
+
     public MainController()
     {
+        Task.Run(StartApiAsync);
+        
         _notifyIcon = new NotifyIcon
         {
             Icon = Resources.appicon,
@@ -86,5 +90,27 @@ public partial class MainController : ApplicationContext
             new ToolStripSeparator(),
             quitMenuItem
         ]);
+    }
+
+    private async Task StartApiAsync()
+    {
+        var builder = WebApplication.CreateBuilder();
+        builder.WebHost.UseUrls("http://localhost:12367");
+
+        builder.Services.AddSingleton(_btWatcher);
+        builder.Services.AddControllers();
+        
+        _api = builder.Build();
+        _api.MapControllers();
+
+        await _api.RunAsync();
+    }
+
+    private void OnExit(object? sender, EventArgs e)
+    {
+        _btWatcher.StopScan();
+        _api?.StopAsync().Wait();
+        _notifyIcon.Visible = false;
+        Application.Exit();
     }
 }

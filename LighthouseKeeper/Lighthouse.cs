@@ -12,7 +12,7 @@ using Windows.Storage.Streams;
 
 namespace LighthouseKeeper;
 
-internal class Lighthouse : IEquatable<Lighthouse>
+public class Lighthouse : IEquatable<Lighthouse>
 {
     private static readonly Guid Service = new("00001523-1212-efde-1523-785feabcd124");
     private static readonly Guid PowerCharacteristic = new("00001525-1212-EFDE-1523-785FEABCD124");
